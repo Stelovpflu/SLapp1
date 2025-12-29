@@ -68,25 +68,52 @@ st.caption(f"⚙️ Decision Threshold: {THRESHOLD}")
 # --------------------------------------------------
 st.subheader("🧾 Transaction Input")
 
-with st.form("fraud_form"):
-    amount = st.number_input("💰 Transaction Amount", min_value=0.0, value=120.0)
+# -------- RANDOM GENERATOR ----------
+def generate_random_transaction():
+    return {
+        "amount": round(np.random.uniform(1, 2500), 2),
+        "time": np.random.randint(0, 86400),
+        "pca": np.random.normal(0, 1, 28).round(4)
+    }
 
-    time = st.number_input(
-        "⏱️ Time (seconds since start of day)",
-        min_value=0,
-        max_value=86400,
-        value=36000
+
+# -------- SESSION STATE INIT --------
+if "random_data" not in st.session_state:
+    st.session_state.random_data = generate_random_transaction()
+
+
+with st.form("fraud_form"):
+
+    col1, col2 = st.columns([3, 1])
+
+    with col2:
+        if st.form_submit_button("🎲 Generate Random"):
+            st.session_state.random_data = generate_random_transaction()
+
+    with col1:
+        amount = st.number_input(
+            "💰 Transaction Amount",
+            min_value=0.0,
+            value=st.session_state.random_data["amount"]
+        )
+
+        time = st.number_input(
+            "⏱️ Time (seconds since start of day)",
+            min_value=0,
+            max_value=86400,
+            value=st.session_state.random_data["time"]
+        )
+
+    st.markdown("### 🔢 PCA Variables (V1–V28)")
+
+    pca_input = st.text_area(
+        "Enter 28 PCA values separated by commas:",
+        value=",".join(map(str, st.session_state.random_data["pca"])),
+        height=120
     )
 
-    st.markdown("### 🔢 PCA Variables")
-    cols = st.columns(4)
-    v_inputs = {}
-
-    for i in range(1, 29):
-        with cols[(i - 1) % 4]:
-            v_inputs[f"V{i}"] = st.number_input(f"V{i}", value=0.0)
-
     submitted = st.form_submit_button("🔍 Analyze Transaction")
+
 
 # --------------------------------------------------
 # PREDICTION
