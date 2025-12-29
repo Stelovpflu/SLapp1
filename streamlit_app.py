@@ -4,28 +4,25 @@
 
 import streamlit as st
 import pandas as pd
+import numpy as np
 import joblib
 
 # --------------------------------------------------
 # CONFIG
 # --------------------------------------------------
-THRESHOLD = 0.636
 MODEL_PATH = "fraud_rf_model.pkl"
 
 # --------------------------------------------------
 # LOAD MODEL
 # --------------------------------------------------
-
 @st.cache_resource
 def load_model():
     return joblib.load(MODEL_PATH)
 
 model_artifacts = load_model()
-
 pipeline = model_artifacts["pipeline"]
 features = model_artifacts["features"]
 THRESHOLD = model_artifacts["threshold"]
-
 
 # --------------------------------------------------
 # PAGE CONFIG
@@ -41,8 +38,8 @@ st.set_page_config(
 # --------------------------------------------------
 st.title("💳 Credit Card Fraud Detection")
 st.markdown("""
-**Machine Learning model for real-time fraud risk evaluation.**  
-This system uses a trained Random Forest model and a cost-optimized decision threshold.
+**Machine Learning system for real-time fraud detection.**  
+Random Forest model optimized with cost-based threshold.
 """)
 
 st.divider()
@@ -64,11 +61,8 @@ with col3:
 st.caption(f"⚙️ Decision Threshold: {THRESHOLD}")
 
 # --------------------------------------------------
-# INPUT FORM
+# RANDOM TRANSACTION GENERATOR
 # --------------------------------------------------
-st.subheader("🧾 Transaction Input")
-
-# -------- RANDOM GENERATOR ----------
 def generate_random_transaction():
     return {
         "amount": round(np.random.uniform(1, 2500), 2),
@@ -76,11 +70,14 @@ def generate_random_transaction():
         "pca": np.random.normal(0, 1, 28).round(4)
     }
 
-
-# -------- SESSION STATE INIT --------
+# Init session state
 if "random_data" not in st.session_state:
     st.session_state.random_data = generate_random_transaction()
 
+# --------------------------------------------------
+# INPUT FORM
+# --------------------------------------------------
+st.subheader("🧾 Transaction Input")
 
 with st.form("fraud_form"):
 
@@ -115,18 +112,17 @@ with st.form("fraud_form"):
     submitted = st.form_submit_button("🔍 Analyze Transaction")
 
 # --------------------------------------------------
-# PROCESS INPUT
+# PREDICTION
 # --------------------------------------------------
 if submitted:
     try:
-        # Convert PCA string to list
         pca_values = [float(x.strip()) for x in pca_input.split(",")]
 
         if len(pca_values) != 28:
             st.error("❌ You must enter exactly 28 PCA values.")
             st.stop()
 
-        # Build input dictionary
+        # Build input dataframe
         data = {
             "Time": time,
             "Amount": amount
@@ -137,46 +133,33 @@ if submitted:
 
         df = pd.DataFrame([data])
 
-    except ValueError:
-        st.error("❌ Invalid format. Use numbers separated by commas.")
-        st.stop()
+        # Feature engineering (must match training)
+        df["Hour"] = (df["Time"] % 86400) // 3600
+        df["Amount_scaled"] = (df["Amount"] - df["Amount"].mean()) / df["Amount"].std()
 
-# --------------------------------------------------
-# PREDICTION
-# --------------------------------------------------
-if submitted:
-    data = {
-        "Time": time,
-        "Amount": amount,
-        **v_inputs
-    }
+        X = df[features]
 
-    df = pd.DataFrame([data])
+        proba = pipeline.predict_proba(X)[0][1]
+        decision = int(proba >= THRESHOLD)
 
-    # Feature engineering
-    df["Hour"] = (df["Time"] % 86400) // 3600
-    df["Amount_scaled"] = (df["Amount"] - df["Amount"].mean()) / df["Amount"].std()
+        st.divider()
+        st.subheader("📊 Prediction Result")
 
-    X = df[features]
+        col1, col2 = st.columns(2)
 
-    proba = pipeline.predict_proba(X)[0][1]
-    decision = int(proba >= THRESHOLD)
+        with col1:
+            st.metric("Fraud Probability", f"{proba:.2%}")
 
-    st.divider()
-    st.subheader("📊 Prediction Result")
+        with col2:
+            if decision:
+                st.error("🚨 FRAUD DETECTED")
+            else:
+                st.success("✅ LEGIT TRANSACTION")
 
-    col1, col2 = st.columns(2)
+        st.caption(f"Threshold used: {THRESHOLD}")
 
-    with col1:
-        st.metric("Fraud Probability", f"{proba:.2%}")
-
-    with col2:
-        if decision:
-            st.error("🚨 FRAUD DETECTED")
-        else:
-            st.success("✅ LEGIT TRANSACTION")
-
-    st.caption(f"Threshold used: {THRESHOLD}")
+    except Exception as e:
+        st.error(f"❌ Error: {e}")
 
 # --------------------------------------------------
 # FOOTER
