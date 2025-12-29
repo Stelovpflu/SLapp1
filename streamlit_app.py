@@ -20,7 +20,7 @@ MODEL_PATH = "fraud_rf_model.pkl"
 def load_model():
     return joblib.load("fraud_rf_model.pkl")
 
-model_artifacts = load_model()
+model_artifacts = joblib.load(MODEL_PATH)
 
 pipeline = model_artifacts["pipeline"]
 features = model_artifacts["features"]
