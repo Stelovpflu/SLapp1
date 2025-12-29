@@ -114,6 +114,32 @@ with st.form("fraud_form"):
 
     submitted = st.form_submit_button("🔍 Analyze Transaction")
 
+# --------------------------------------------------
+# PROCESS INPUT
+# --------------------------------------------------
+if submitted:
+    try:
+        # Convert PCA string to list
+        pca_values = [float(x.strip()) for x in pca_input.split(",")]
+
+        if len(pca_values) != 28:
+            st.error("❌ You must enter exactly 28 PCA values.")
+            st.stop()
+
+        # Build input dictionary
+        data = {
+            "Time": time,
+            "Amount": amount
+        }
+
+        for i in range(28):
+            data[f"V{i+1}"] = pca_values[i]
+
+        df = pd.DataFrame([data])
+
+    except ValueError:
+        st.error("❌ Invalid format. Use numbers separated by commas.")
+        st.stop()
 
 # --------------------------------------------------
 # PREDICTION
