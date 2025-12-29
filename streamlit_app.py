@@ -56,29 +56,18 @@ Random Forest model optimized with cost-based threshold.
 st.divider()
 
 # --------------------------------------------------
-# MODEL INFO (CUSTOM STYLE)
+# MODEL INFO 
 # --------------------------------------------------
-st.markdown("### 📊 Model Performance")
-
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown("""
-    **Model**  
-    <span style="font-size:22px;">Random Forest</span>
-    """, unsafe_allow_html=True)
+    st.metric("Model", "RF")
 
 with col2:
-    st.markdown("""
-    **Recall (Fraud)**  
-    <span style="font-size:22px;">0.85</span>
-    """, unsafe_allow_html=True)
+    st.metric("Recall", "0.85")
 
 with col3:
-    st.markdown("""
-    **Precision (Fraud)**  
-    <span style="font-size:22px;">0.67</span>
-    """, unsafe_allow_html=True)
+    st.metric("Precision", "0.67")
 
 st.caption(f"⚙️ Decision Threshold: {THRESHOLD}")
 
