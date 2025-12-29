@@ -20,9 +20,19 @@ def load_model():
     return joblib.load(MODEL_PATH)
 
 model_artifacts = load_model()
+
 pipeline = model_artifacts["pipeline"]
 features = model_artifacts["features"]
 THRESHOLD = model_artifacts["threshold"]
+
+# --------------------------------------------------
+# RELOAD MODEL BUTTON
+# --------------------------------------------------
+st.sidebar.markdown("### 🔄 Model Control")
+
+if st.sidebar.button("Reload Model"):
+    st.cache_resource.clear()
+    st.success("Model reloaded successfully ✅")
 
 # --------------------------------------------------
 # PAGE CONFIG
