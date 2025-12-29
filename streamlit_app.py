@@ -58,16 +58,27 @@ st.divider()
 # --------------------------------------------------
 # MODEL INFO
 # --------------------------------------------------
+st.markdown("### 📊 Model Performance")
+
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.metric("Model", "Random Forest")
+    st.markdown("""
+    **Model**  
+    <span style="font-size:22px;">Random Forest</span>
+    """, unsafe_allow_html=True)
 
 with col2:
-    st.metric("Recall (Fraud)", "0.85")
+    st.markdown("""
+    **Recall (Fraud)**  
+    <span style="font-size:22px;">0.85</span>
+    """, unsafe_allow_html=True)
 
 with col3:
-    st.metric("Precision (Fraud)", "0.67")
+    st.markdown("""
+    **Precision (Fraud)**  
+    <span style="font-size:22px;">0.67</span>
+    """, unsafe_allow_html=True)
 
 st.caption(f"⚙️ Decision Threshold: {THRESHOLD}")
 
