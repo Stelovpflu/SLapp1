@@ -56,28 +56,55 @@ Random Forest model optimized with cost-based threshold.
 st.divider()
 
 # --------------------------------------------------
-# MODEL INFO
+# MODEL INFO (CUSTOM STYLE)
 # --------------------------------------------------
-st.markdown("### 📊 Model Performance")
 
-col1, col2, col3 = st.columns(3)
+st.markdown("""
+<style>
+.metric-box {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
 
-with col1:
+.metric-item {
+    text-align: left;
+}
+
+.metric-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #6c757d;
+}
+
+.metric-value {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #262730;
+}
+</style>
+""", unsafe_allow_html=True)
+
+with st.container():
     st.markdown("""
-    **Model**  
-    <span style="font-size:16px;">Random Forest</span>
-    """, unsafe_allow_html=True)
+    <div class="metric-box">
+        <div class="metric-item">
+            <div class="metric-title">Model</div>
+            <div class="metric-value">Random Forest</div>
+        </div>
 
-with col2:
-    st.markdown("""
-    **Recall (Fraud)**  
-    <span style="font-size:16px;">0.85</span>
-    """, unsafe_allow_html=True)
+        <div class="metric-item">
+            <div class="metric-title">Recall (Fraud)</div>
+            <div class="metric-value">0.85</div>
+        </div>
 
-with col3:
-    st.markdown("""
-    **Precision (Fraud)**  
-    <span style="font-size:16px;">0.67</span>
+        <div class="metric-item">
+            <div class="metric-title">Precision (Fraud)</div>
+            <div class="metric-value">0.67</div>
+        </div>
+    </div>
     """, unsafe_allow_html=True)
 
 st.caption(f"⚙️ Decision Threshold: {THRESHOLD}")
