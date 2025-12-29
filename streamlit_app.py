@@ -19,11 +19,7 @@ MODEL_PATH = "fraud_rf_model.pkl"
 @st.cache_resource
 def load_model():
     return joblib.load(MODEL_PATH)
-import os
-import streamlit as st
 
-st.write("📁 Files in current directory:")
-st.write(os.listdir())
 model_artifacts = load_model()
 
 pipeline = model_artifacts["pipeline"]
