@@ -15,14 +15,17 @@ MODEL_PATH = "model/fraud_rf_model.pkl"
 # --------------------------------------------------
 # LOAD MODEL
 # --------------------------------------------------
+
 @st.cache_resource
 def load_model():
-    artifacts = joblib.load(MODEL_PATH)
-    return artifacts
+    return joblib.load("fraud_rf_model.pkl")
 
-artifacts = load_model()
-pipeline = artifacts["pipeline"]
-features = artifacts["features"]
+model_artifacts = load_model()
+
+pipeline = model_artifacts["pipeline"]
+features = model_artifacts["features"]
+THRESHOLD = model_artifacts["threshold"]
+
 
 # --------------------------------------------------
 # PAGE CONFIG
