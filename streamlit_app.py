@@ -15,7 +15,7 @@ MODEL_PATH = "fraud_rf_model.pkl"
 # --------------------------------------------------
 # LOAD MODEL
 # --------------------------------------------------
-@st.cache_resource
+@st.cache_resource(show_spinner=False)
 def load_model():
     return joblib.load(MODEL_PATH)
 
