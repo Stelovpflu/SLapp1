@@ -62,15 +62,15 @@ st.markdown("""
 <div style="display:flex; justify-content:space-between;">
   <div>
     <b>Model</b><br>
-    <span style="font-size:20px;">Random Forest</span>
+    <span style="font-size:18px;">Random Forest</span>
   </div>
   <div>
     <b>Recall</b><br>
-    <span style="font-size:20px;">0.85</span>
+    <span style="font-size:18px;">0.85</span>
   </div>
   <div>
     <b>Precision</b><br>
-    <span style="font-size:20px;">0.67</span>
+    <span style="font-size:18px;">0.67</span>
   </div>
 </div>
 """, unsafe_allow_html=True)
