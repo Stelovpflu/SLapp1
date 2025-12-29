@@ -58,22 +58,16 @@ st.divider()
 # --------------------------------------------------
 # MODEL INFO 
 # --------------------------------------------------
-st.markdown("""
-<div style="display:flex; justify-content:space-between;">
-  <div>
-    <b>Model</b><br>
-    <span style="font-size:18px;">Random Forest</span>
-  </div>
-  <div>
-    <b>Recall</b><br>
-    <span style="font-size:18px;">0.85</span>
-  </div>
-  <div>
-    <b>Precision</b><br>
-    <span style="font-size:18px;">0.67</span>
-  </div>
-</div>
-""", unsafe_allow_html=True)
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric("Model", "RF")
+
+with col2:
+    st.metric("Recall", "0.85")
+
+with col3:
+    st.metric("Precision", "0.67")
 
 st.caption(f"⚙️ Decision Threshold: {THRESHOLD}")
 
