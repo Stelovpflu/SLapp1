@@ -95,12 +95,12 @@ with st.container():
             <div class="metric-value">Random Forest</div>
         </div>
 
-        <div class="metric-item">
+        <div class="metric-box">
             <div class="metric-title">Recall (Fraud)</div>
             <div class="metric-value">0.85</div>
         </div>
 
-        <div class="metric-item">
+        <div class="metric-box">
             <div class="metric-title">Precision (Fraud)</div>
             <div class="metric-value">0.67</div>
         </div>
