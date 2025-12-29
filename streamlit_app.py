@@ -32,7 +32,8 @@ st.sidebar.markdown("### 🔄 Model Control")
 
 if st.sidebar.button("Reload Model"):
     st.cache_resource.clear()
-    st.success("Model reloaded successfully ✅")
+    st.success("Model cache cleared. Reloading...")
+    st.rerun()
 
 # --------------------------------------------------
 # PAGE CONFIG
