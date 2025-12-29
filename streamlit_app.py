@@ -10,7 +10,7 @@ import joblib
 # CONFIG
 # --------------------------------------------------
 THRESHOLD = 0.636
-MODEL_PATH = "model/fraud_rf_model.pkl"
+MODEL_PATH = "fraud_rf_model.pkl"
 
 # --------------------------------------------------
 # LOAD MODEL
