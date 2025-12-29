@@ -18,9 +18,9 @@ MODEL_PATH = "fraud_rf_model.pkl"
 
 @st.cache_resource
 def load_model():
-    return joblib.load("fraud_rf_model.pkl")
+    return joblib.load(MODEL_PATH)
 
-model_artifacts = joblib.load(MODEL_PATH)
+model_artifacts = load_model()
 
 pipeline = model_artifacts["pipeline"]
 features = model_artifacts["features"]
