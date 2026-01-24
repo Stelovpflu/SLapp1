@@ -50,7 +50,7 @@ st.set_page_config(
 st.title("💳 Credit Card Fraud Detection")
 st.markdown("""
 **Machine Learning system for real-time fraud detection.**  
-Random Forest model optimized with cost-based threshold.
+Aplicación interactiva construida con Streamlit para la detección de transacciones fraudulentas usando un modelo de Machine Learning: Random Forest Classifier, diseñada para manejar clases desbalanceadas, un problema crítico en fraude.
 """)
 
 st.divider()
